@@ -1,5 +1,6 @@
 # simquantgen
-Simulate genotype and phenotype data for quantitative genetics analyses
+
+Simulate genotype and phenotype data for quantitative genetics analyses in R.
 
 |**Build Status**|**License**|
 |:--------------:|:---------:|
