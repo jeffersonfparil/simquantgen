@@ -423,8 +423,8 @@ fn_simulate_phenotypes = function(G, n_alleles=2, dist_effects=c("norm", "chi2")
 #' @examples
 #' G = fn_simulate_genotypes()
 #' list_df_CORR_1 = fn_simulate_gxe(G)
-#' list_df_CORR_2 = fn_simulate_gxe(G, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
-#' list_df_CORR_3 = fn_simulate_gxe(G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
+#' list_df_CORR_2 = fn_simulate_gxe(G=G, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
+#' list_df_CORR_3 = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
 #' @export
 fn_simulate_gxe = function(G, n_alleles=2, dist_effects=c("norm", "chi2")[1], n_effects=5, purely_additive=TRUE, n_networks=1, n_effects_per_network=50, h2=0.5, env_factor_levels=c(2, 3, 2), env_factor_effects_sd=c(0.1, 1.0, 0.01), n_reps=3, verbose=FALSE) {
     # G = fn_simulate_genotypes()
@@ -523,7 +523,7 @@ fn_simulate_gxe = function(G, n_alleles=2, dist_effects=c("norm", "chi2")[1], n_
 #' D: variance-covariance matrix of the random effects defined as the Gram matrix of the genotype information, i.e. let $G$ be the numeric $n \times l$ genotype matrix which may represent the presence or absence of a genome marker or allele frequencies, then $D = GG^T \over l$.
 #' @examples
 #' G = fn_simulate_genotypes()
-#' df_gxe = fn_simulate_gxe(G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)$df
+#' df_gxe = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)$df
 #' list_y_complete_y_X_Z_D = fn_simulate_sparse_mixed_model_data(G=G, df_gxe=df_gxe, frac_gen_missing=0.25)
 #' @export
 fn_simulate_sparse_mixed_model_data = function(G, df_gxe, frac_gen_missing=0.1) {

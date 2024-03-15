@@ -56,6 +56,6 @@ Arguments are the same as fn_simulate_phenotypes excluding pheno_reps which is r
 \examples{
 G = fn_simulate_genotypes()
 list_df_CORR_1 = fn_simulate_gxe(G)
-list_df_CORR_2 = fn_simulate_gxe(G, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
-list_df_CORR_3 = fn_simulate_gxe(G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
+list_df_CORR_2 = fn_simulate_gxe(G=G, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
+list_df_CORR_3 = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
 }

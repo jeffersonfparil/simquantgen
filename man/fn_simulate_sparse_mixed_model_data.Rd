@@ -25,6 +25,6 @@ Simulate sparse mixed-model data
 }
 \examples{
 G = fn_simulate_genotypes()
-df_gxe = fn_simulate_gxe(G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)$df
+df_gxe = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)$df
 list_y_complete_y_X_Z_D = fn_simulate_sparse_mixed_model_data(G=G, df_gxe=df_gxe, frac_gen_missing=0.25)
 }
