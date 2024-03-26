@@ -25,9 +25,10 @@ library(simquantgen)
 ## Examples
 
 ```R
-G = simquantgen::fn_simulate_genotypes(n=120, l=512, ploidy=42, n_alleles=4, verbose=TRUE)
+library(simquantgen)
+G = fn_simulate_genotypes(n=120, l=512, ploidy=42, n_alleles=4, verbose=TRUE)
 list_Y_b_E_b_epi = fn_simulate_phenotypes(G=G, n_alleles=4, dist_effects="chi2", n_effects=25, h2=0.75, pheno_reps=5, verbose=TRUE)
-list_df_CORR = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
+list_df_CORR = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, frac_additional_QTL_per_env=0.15, n_reps=5, verbose=TRUE)
 list_y_complete_y_X_Z_D = fn_simulate_sparse_mixed_model_data(G=G, df_gxe=list_df_CORR$df, frac_gen_missing=0.25)
 ```
 

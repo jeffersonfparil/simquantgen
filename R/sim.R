@@ -153,7 +153,7 @@ fn_simulate_genotypes = function(n=100, l=500, ploidy=2, n_alleles=2, min_allele
         print(paste0("     -number of rows (number of entries) = ", n))
         print(paste0("     -number of columns (number of loci x number of alleles - 1) = ", l*(n_alleles-1)))
         print("Allele frequency distribution:")
-        txtplot::txtdensity(G[sample(x=n, size=min(c(n, 1000))), sample(x=m, size=min(c(n, 1000)))])
+        txtplot::txtdensity(G[sample(x=n, size=min(c(n, l*(n_alleles-1), 1000))), sample(x=l*(n_alleles-1), size=min(c(n, l*(n_alleles-1), 1000)))])
         print("##############################################################################")
     }
     if (show_correlation_heatmap==TRUE) {
@@ -416,6 +416,7 @@ fn_simulate_phenotypes = function(G, n_alleles=2, dist_effects=c("norm", "chi2")
 #' @param h2: heritability, i.e., variance due to genetic effects (additive or additive and non-additive) divided by total phenotype variance
 #' @param env_factor_levels: vector of environmental factor levels - think of this as the number of distinct classes per environmental factor like precipitation, temperature, and solar radiation regimes
 #' @param env_factor_effects_sd: vector or a single value defining the standard deviation of the normal distribution centred at 0 from which the environmental effects affecting the genotype effect will be sampled from
+#' @param frac_additional_QTL_per_env: fraction of the existing number of QTL effects to be added as additional environment specific QTL
 #' @param n_reps: number of replicates of observations per genotype per environment
 #' @param verbose: show simulation messages?
 #' @returns 
@@ -425,7 +426,7 @@ fn_simulate_phenotypes = function(G, n_alleles=2, dist_effects=c("norm", "chi2")
 #' G = fn_simulate_genotypes()
 #' list_df_CORR_1 = fn_simulate_gxe(G)
 #' list_df_CORR_2 = fn_simulate_gxe(G=G, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
-#' list_df_CORR_3 = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
+#' list_df_CORR_3 = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, frac_additional_QTL_per_env=0.25, n_reps=5, verbose=TRUE)
 #' @export
 fn_simulate_gxe = function(G, n_alleles=2, dist_effects=c("norm", "chi2")[1], n_effects=5, purely_additive=TRUE, n_networks=1, n_effects_per_network=50, h2=0.5, env_factor_levels=c(2, 3, 2), env_factor_effects_sd=c(0.1, 1.0, 0.01), frac_additional_QTL_per_env=0.01, n_reps=3, verbose=FALSE) {
     # G = fn_simulate_genotypes()
