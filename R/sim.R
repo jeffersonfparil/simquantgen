@@ -58,7 +58,7 @@ fn_simulate_genotypes = function(n=100, l=500, ploidy=2, n_alleles=2, min_allele
     x = seq(from=0, to=1, length=m)
     S = matrix(0, nrow=m, ncol=m)
     for (i in 1:m) {
-        r = 1 / exp(sigma*x[1:(m-i+1)])
+        r = 0.25 / exp(sigma*x[1:(m-i+1)])
         S[i, i:m] = r
         S[i:m, i] = r
     }
@@ -95,9 +95,8 @@ fn_simulate_genotypes = function(n=100, l=500, ploidy=2, n_alleles=2, min_allele
     if (verbose==TRUE) {
         print("Calling genotypes accounting for ploidy (multi-threaded across $n$ entries)...")
     }
-    min_Z = apply(Z, MARGIN=2, FUN=min) - min_allele_freq
-    max_Z = apply(Z, MARGIN=2, FUN=max) + min_allele_freq
-    Z = t((t(Z) - min_Z) / (max_Z - min_Z))
+    Z[Z < 0.0] = 0.0
+    Z[Z > 1.0] = 1.0
     ### Define the expected genotype levels according to the ploidy
     ### Setting equal probabilities along the 0 to 1 range for each genotype level using quantiles
     geno_levels = c(0:ploidy)/ploidy
@@ -124,7 +123,7 @@ fn_simulate_genotypes = function(n=100, l=500, ploidy=2, n_alleles=2, min_allele
                     }
                     if (k == 0) {
                         ### Set the first allele
-                        idx = tail(which(Z[i, j] > q_steps), n=1)
+                        idx = tail(which(Z[i, j] >= q_steps), n=1)
                         g[b] = geno_levels[idx]
                     } else {
                         ### Find the other allele where we expect a maximum of 2 non-zero alleles since we are still dealing with 2 sets of chromosomes split across gametes regardless of the even ploidy level
@@ -142,12 +141,6 @@ fn_simulate_genotypes = function(n=100, l=500, ploidy=2, n_alleles=2, min_allele
     G = t(G)
     gc()
     ### Duplicate the vectors of loci coordinates by the number of $n_alleles-1$ alleles
-    if (verbose==TRUE) {
-        print("Genotype simulation finished:")
-        print(paste0("     -number of rows (number of entries) = ", n))
-        print(paste0("     -number of columns (number of loci x number of alleles - 1) = ", l*(n_alleles-1)))
-        print("##############################################################################")
-    }
     vec_chr = rep(vec_chr, each=n_alleles-1)
     vec_pos = rep(vec_pos, each=n_alleles-1)
     vec_allele = rep(paste0("allele_", 1:(n_alleles-1)), times=l)
@@ -155,6 +148,14 @@ fn_simulate_genotypes = function(n=100, l=500, ploidy=2, n_alleles=2, min_allele
     n_digits = length(unlist(strsplit(as.character(n), "")))
     rownames(G) = paste0("entry_", sprintf(paste0("%0", n_digits, "d"), 1:n))
     colnames(G) = paste(vec_chr, vec_pos, vec_allele, sep="-")
+    if (verbose==TRUE) {
+        print("Genotype simulation finished:")
+        print(paste0("     -number of rows (number of entries) = ", n))
+        print(paste0("     -number of columns (number of loci x number of alleles - 1) = ", l*(n_alleles-1)))
+        print("Allele frequency distribution:")
+        txtplot::txtdensity(G[sample(x=n, size=min(c(n, 1000))), sample(x=m, size=min(c(n, 1000)))])
+        print("##############################################################################")
+    }
     if (show_correlation_heatmap==TRUE) {
         idx = seq(from=2, to=ncol(G), by=(n_alleles-1))
         heatmap(cor(G[, idx]), Rowv=NA, Colv=NA)
@@ -426,18 +427,21 @@ fn_simulate_phenotypes = function(G, n_alleles=2, dist_effects=c("norm", "chi2")
 #' list_df_CORR_2 = fn_simulate_gxe(G=G, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
 #' list_df_CORR_3 = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
 #' @export
-fn_simulate_gxe = function(G, n_alleles=2, dist_effects=c("norm", "chi2")[1], n_effects=5, purely_additive=TRUE, n_networks=1, n_effects_per_network=50, h2=0.5, env_factor_levels=c(2, 3, 2), env_factor_effects_sd=c(0.1, 1.0, 0.01), n_reps=3, verbose=FALSE) {
+fn_simulate_gxe = function(G, n_alleles=2, dist_effects=c("norm", "chi2")[1], n_effects=5, purely_additive=TRUE, n_networks=1, n_effects_per_network=50, h2=0.5, env_factor_levels=c(2, 3, 2), env_factor_effects_sd=c(0.1, 1.0, 0.01), frac_additional_QTL_per_env=0.01, n_reps=3, verbose=FALSE) {
     # G = fn_simulate_genotypes()
     # n_alleles = 2
     # dist_effects=c("norm", "chi2")[1]
     # n_effects=5
     # purely_additive=FALSE
+    # # purely_additive=TRUE
     # n_networks=10
     # n_effects_per_network=50
     # h2=0.5
     # env_factor_levels=c(2, 3, 2)
     # env_factor_effects_sd=c(0.1, 1.0, 0.01)
+    # frac_additional_QTL_per_env=0.01
     # n_reps=3
+    # verbose=FALSE
     n = nrow(G)
     l = ncol(G)
     ### Simulate genetic effects
@@ -471,6 +475,22 @@ fn_simulate_gxe = function(G, n_alleles=2, dist_effects=c("norm", "chi2")[1], n_
                 effects = effects * df_factor_level_combinations[i, j] * rnorm(n=length(effects), mean=0, sd=env_factor_effects_sd[j])
             }
             ### Define the residual variance
+            n_effects = sum(effects != 0.0)
+            n_additional_effects = ceiling(frac_additional_QTL_per_env*n_effects)
+            if ((n_effects + n_additional_effects) < length(effects)) {
+                ### Define the probability distribution function from which the allele effects will be sampled from
+                if (dist_effects=="norm") {
+                    fn = function(){rnorm(n=1, mean=0, sd=1)}
+                } else if (dist_effects=="chi2") {
+                    fn = function(){rchisq(n=1, df=1)}
+                } else {
+                    print("Please select: 'norm' or 'chi2'.")
+                }
+                idx_additional_effects = sample(x=which(effects == 0.0), size=n_additional_effects)
+                for (idx_new_effects in idx_additional_effects) {
+                    effects[idx_new_effects] = fn()
+                }
+            }
             g = G %*% effects
             vg = var(g)
             ve = vg * (1/h2 - 1)
