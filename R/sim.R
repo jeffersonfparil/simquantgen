@@ -528,7 +528,7 @@ fn_simulate_gxe = function(G, n_alleles=2, dist_effects=c("norm", "chi2")[1], n_
         txtplot::txtdensity(df$y)
     }
     ### Output
-    return(list(df=df, CORR=CORR))
+    return(list(df=df, CORR=CORR, list_Y_b_E_b_epi=list_Y_b_E_b_epi))
 }
 
 #' Simulate sparse mixed-model data
