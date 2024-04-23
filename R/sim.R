@@ -477,7 +477,7 @@ fn_simulate_gxe = function(G, n_alleles=2, dist_effects=c("norm", "chi2")[1], n_
             }
             for (j in 1:ncol(df_factor_level_combinations)) {
                 # j = 1
-                effects = effects * df_factor_level_combinations[i, j] * rnorm(n=length(effects), mean=0, sd=env_factor_effects_sd[j])
+                effects = effects + (effects * df_factor_level_combinations[i, j] * rnorm(n=length(effects), mean=0, sd=env_factor_effects_sd[j]))
             }
             ### Define the residual variance
             n_effects = sum(effects != 0.0)
