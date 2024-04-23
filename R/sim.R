@@ -422,6 +422,10 @@ fn_simulate_phenotypes = function(G, n_alleles=2, dist_effects=c("norm", "chi2")
 #' @returns 
 #' df: a data.frame with the phenotype in a single column, replication ID, genotype ID, environment ID, followed by the environmental factor levels with one column per factor
 #' CORR: correlation matrix between the environments
+#' list_Y_b_E_b_epi$Y: phenotype matrix with $n$ rows, $pheno_reps$ columns, and named rows and columns
+#' list_Y_b_E_b_epi$b: additive genetic effects, if purely_additive == TRUE, NULL otherwise
+#' list_Y_b_E_b_epi$E: epistasis matrix, if purely_additive == FALSE, NULL otherwise
+#' list_Y_b_E_b_epi$b_epi: epistasis effects, if purely_additive == FALSE, NULL otherwise
 #' @examples
 #' G = fn_simulate_genotypes()
 #' list_df_CORR_1 = fn_simulate_gxe(G)
