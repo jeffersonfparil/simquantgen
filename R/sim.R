@@ -1,16 +1,16 @@
 #' Simulate genotype data with some linkage disequilibrium between neighbouring loci
 #' 
-#' @param n: number of samples (individuals or pools)
-#' @param l: number of loci
-#' @param ploidy: ploidy level of individual samples or the number of individuals multiplied by their ploidy to simulate pools
-#' @param n_alleles: number of alleles per locus
-#' @param min_allele_freq: minimum minor allele frequency
-#' @param n_chr: number of chromosomes
-#' @param max_pos: total length of the genome
-#' @param dist_bp_at_50perc_r2: distance in bases at which the estimated linkage between loci at both ends is at 50%
-#' @param n_threads: number of computing cores or threads to use in parallel simulation of genotypes
-#' @param verbose: show simulation messages?
-#' @param show_correlation_heatmap: show correlation heatmap?
+#' @param n number of samples (individuals or pools)
+#' @param l number of loci
+#' @param ploidy ploidy level of individual samples or the number of individuals multiplied by their ploidy to simulate pools
+#' @param n_alleles number of alleles per locus
+#' @param min_allele_freq minimum minor allele frequency
+#' @param n_chr number of chromosomes
+#' @param max_pos total length of the genome
+#' @param dist_bp_at_50perc_r2 distance in bases at which the estimated linkage between loci at both ends is at 50%
+#' @param n_threads number of computing cores or threads to use in parallel simulation of genotypes
+#' @param verbose show simulation messages?
+#' @param show_correlation_heatmap show correlation heatmap?
 #' @returns genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns
 #' @examples
 #' G_1 = fn_simulate_genotypes()
@@ -169,21 +169,21 @@ fn_simulate_genotypes = function(n=100, l=500, ploidy=2, n_alleles=2, min_allele
 #' then the first 90% of the required effects per network corresponding to the first consecutive additive+epistatic effects are included and the remaining are sampled regularly for the remaining effect combinations.
 #' This may result in less than the required effects per network, if the number of combinations are very large.
 #' 
-#' @param G: genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns [Required]
-#' @param n_alleles: number of alleles per locus [Required]
-#' @param dist_effects: distribution of genetic effects which may be "norm" for Gaussian or "chi2" for Chi-squared
-#' @param n_effects: number of additive genetic effects
-#' @param purely_additive: Simulate only additive effects?
-#' @param n_networks: number of networks with non-additive effects
-#' @param n_effects_per_network: maximum number of non-additive effects per network
-#' @param h2: heritability, i.e., variance due to genetic effects (additive or additive and non-additive) divided by total phenotype variance
-#' @param pheno_reps: number of times the phenotypes will be recalculated where the error effects are resampled for each sample 
-#' @param verbose: show simulation messages?
+#' @param G genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns [Required]
+#' @param n_alleles number of alleles per locus [Required]
+#' @param dist_effects distribution of genetic effects which may be "norm" for Gaussian or "chi2" for Chi-squared
+#' @param n_effects number of additive genetic effects
+#' @param purely_additive Simulate only additive effects?
+#' @param n_networks number of networks with non-additive effects
+#' @param n_effects_per_network maximum number of non-additive effects per network
+#' @param h2 heritability, i.e., variance due to genetic effects (additive or additive and non-additive) divided by total phenotype variance
+#' @param pheno_reps number of times the phenotypes will be recalculated where the error effects are resampled for each sample 
+#' @param verbose show simulation messages?
 #' @returns
-#' Y: phenotype matrix with $n$ rows, $pheno_reps$ columns, and named rows and columns
-#' b: additive genetic effects, if purely_additive == TRUE, NULL otherwise
-#' E: epistasis matrix, if purely_additive == FALSE, NULL otherwise
-#' b_epi: epistasis effects, if purely_additive == FALSE, NULL otherwise
+#' Y phenotype matrix with $n$ rows, $pheno_reps$ columns, and named rows and columns
+#' b additive genetic effects, if purely_additive == TRUE, NULL otherwise
+#' E epistasis matrix, if purely_additive == FALSE, NULL otherwise
+#' b_epi epistasis effects, if purely_additive == FALSE, NULL otherwise
 #' @examples
 #' G = fn_simulate_genotypes()
 #' list_Y_b_E_b_epi_1 = fn_simulate_phenotypes(G)
@@ -406,26 +406,26 @@ fn_simulate_phenotypes = function(G, n_alleles=2, dist_effects=c("norm", "chi2")
 #' Simulate genotype-by-environment interactions
 #' Arguments are the same as fn_simulate_phenotypes excluding pheno_reps which is replaced with n_reps which refers to the number of replicates of observations per genotype per environment in addition to env_factor_levels, and env_factor_effects_sd.
 #' 
-#' @param G: genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns [Required]
-#' @param n_alleles: number of alleles per locus [Required]
-#' @param dist_effects: distribution of genetic effects which may be "norm" for Gaussian or "chi2" for Chi-squared
-#' @param n_effects: number of additive genetic effects
-#' @param purely_additive: Simulate only additive effects?
-#' @param n_networks: number of networks with non-additive effects
-#' @param n_effects_per_network: maximum number of non-additive effects per network
-#' @param h2: heritability, i.e., variance due to genetic effects (additive or additive and non-additive) divided by total phenotype variance
-#' @param env_factor_levels: vector of environmental factor levels - think of this as the number of distinct classes per environmental factor like precipitation, temperature, and solar radiation regimes
-#' @param env_factor_effects_sd: vector or a single value defining the standard deviation of the normal distribution centred at 0 from which the environmental effects affecting the genotype effect will be sampled from
-#' @param frac_additional_QTL_per_env: fraction of the existing number of QTL effects to be added as additional environment specific QTL
-#' @param n_reps: number of replicates of observations per genotype per environment
-#' @param verbose: show simulation messages?
+#' @param G genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns [Required]
+#' @param n_alleles number of alleles per locus [Required]
+#' @param dist_effects distribution of genetic effects which may be "norm" for Gaussian or "chi2" for Chi-squared
+#' @param n_effects number of additive genetic effects
+#' @param purely_additive Simulate only additive effects?
+#' @param n_networks number of networks with non-additive effects
+#' @param n_effects_per_network maximum number of non-additive effects per network
+#' @param h2 heritability, i.e., variance due to genetic effects (additive or additive and non-additive) divided by total phenotype variance
+#' @param env_factor_levels vector of environmental factor levels - think of this as the number of distinct classes per environmental factor like precipitation, temperature, and solar radiation regimes
+#' @param env_factor_effects_sd vector or a single value defining the standard deviation of the normal distribution centred at 0 from which the environmental effects affecting the genotype effect will be sampled from
+#' @param frac_additional_QTL_per_env fraction of the existing number of QTL effects to be added as additional environment specific QTL
+#' @param n_reps number of replicates of observations per genotype per environment
+#' @param verbose show simulation messages?
 #' @returns 
-#' df: a data.frame with the phenotype in a single column, replication ID, genotype ID, environment ID, followed by the environmental factor levels with one column per factor
-#' CORR: correlation matrix between the environments
-#' list_Y_b_E_b_epi$Y: phenotype matrix with $n$ rows, $pheno_reps$ columns, and named rows and columns
-#' list_Y_b_E_b_epi$b: additive genetic effects, if purely_additive == TRUE, NULL otherwise
-#' list_Y_b_E_b_epi$E: epistasis matrix, if purely_additive == FALSE, NULL otherwise
-#' list_Y_b_E_b_epi$b_epi: epistasis effects, if purely_additive == FALSE, NULL otherwise
+#' df a data.frame with the phenotype in a single column, replication ID, genotype ID, environment ID, followed by the environmental factor levels with one column per factor
+#' CORR correlation matrix between the environments
+#' list_Y_b_E_b_epi$Y phenotype matrix with $n$ rows, $pheno_reps$ columns, and named rows and columns
+#' list_Y_b_E_b_epi$b additive genetic effects, if purely_additive == TRUE, NULL otherwise
+#' list_Y_b_E_b_epi$E epistasis matrix, if purely_additive == FALSE, NULL otherwise
+#' list_Y_b_E_b_epi$b_epi epistasis effects, if purely_additive == FALSE, NULL otherwise
 #' @examples
 #' G = fn_simulate_genotypes()
 #' list_df_CORR_1 = fn_simulate_gxe(G)
@@ -537,15 +537,15 @@ fn_simulate_gxe = function(G, n_alleles=2, dist_effects=c("norm", "chi2")[1], n_
 
 #' Simulate sparse mixed-model data
 #' 
-#' @param G: genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns [Required]
-#' @param df: a data.frame with the phenotype in a single column, replication ID, genotype ID, environment ID, followed by the environmental factor levels with one column per factor
-#' @param frac_gen_missing: fraction of the genotypes to be set as missing
+#' @param G genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns [Required]
+#' @param df a data.frame with the phenotype in a single column, replication ID, genotype ID, environment ID, followed by the environmental factor levels with one column per factor
+#' @param frac_gen_missing fraction of the genotypes to be set as missing
 #' @returns 
-#' y_complete: vector of phenotype data without missing data
-#' y: vector of phenotype data without simulated missing data
-#' X: incidence matrix for the fixed effects including the intercept and environment/s
-#' Z: incidence matrix for the random effects, i.e. the genotype IDs
-#' D: variance-covariance matrix of the random effects defined as the Gram matrix of the genotype information, i.e. let $G$ be the numeric $n \times l$ genotype matrix which may represent the presence or absence of a genome marker or allele frequencies, then $D = GG^T \over l$.
+#' y_complete vector of phenotype data without missing data
+#' y vector of phenotype data without simulated missing data
+#' X incidence matrix for the fixed effects including the intercept and environment/s
+#' Z incidence matrix for the random effects, i.e. the genotype IDs
+#' D variance-covariance matrix of the random effects defined as the Gram matrix of the genotype information, i.e. let $G$ be the numeric $n \times l$ genotype matrix which may represent the presence or absence of a genome marker or allele frequencies, then $D = GG^T \over l$.
 #' @examples
 #' G = fn_simulate_genotypes()
 #' df_gxe = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)$df
