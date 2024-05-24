@@ -22,31 +22,31 @@ fn_simulate_phenotypes(
 )
 }
 \arguments{
-\item{G:}{genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns \link{Required}}
+\item{G}{genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns \link{Required}}
 
-\item{n_alleles:}{number of alleles per locus \link{Required}}
+\item{n_alleles}{number of alleles per locus \link{Required}}
 
-\item{dist_effects:}{distribution of genetic effects which may be "norm" for Gaussian or "chi2" for Chi-squared}
+\item{dist_effects}{distribution of genetic effects which may be "norm" for Gaussian or "chi2" for Chi-squared}
 
-\item{n_effects:}{number of additive genetic effects}
+\item{n_effects}{number of additive genetic effects}
 
-\item{purely_additive:}{Simulate only additive effects?}
+\item{purely_additive}{Simulate only additive effects?}
 
-\item{n_networks:}{number of networks with non-additive effects}
+\item{n_networks}{number of networks with non-additive effects}
 
-\item{n_effects_per_network:}{maximum number of non-additive effects per network}
+\item{n_effects_per_network}{maximum number of non-additive effects per network}
 
-\item{h2:}{heritability, i.e., variance due to genetic effects (additive or additive and non-additive) divided by total phenotype variance}
+\item{h2}{heritability, i.e., variance due to genetic effects (additive or additive and non-additive) divided by total phenotype variance}
 
-\item{pheno_reps:}{number of times the phenotypes will be recalculated where the error effects are resampled for each sample}
+\item{pheno_reps}{number of times the phenotypes will be recalculated where the error effects are resampled for each sample}
 
-\item{verbose:}{show simulation messages?}
+\item{verbose}{show simulation messages?}
 }
 \value{
-Y: phenotype matrix with $n$ rows, $pheno_reps$ columns, and named rows and columns
-b: additive genetic effects, if purely_additive == TRUE, NULL otherwise
-E: epistasis matrix, if purely_additive == FALSE, NULL otherwise
-b_epi: epistasis effects, if purely_additive == FALSE, NULL otherwise
+Y phenotype matrix with $n$ rows, $pheno_reps$ columns, and named rows and columns
+b additive genetic effects, if purely_additive == TRUE, NULL otherwise
+E epistasis matrix, if purely_additive == FALSE, NULL otherwise
+b_epi epistasis effects, if purely_additive == FALSE, NULL otherwise
 }
 \description{
 Simulate phenotype data from purely additive or additive + epistatic effects.

@@ -147,7 +147,7 @@ fn_simulate_genotypes = function(n=100, l=500, ploidy=2, n_alleles=2, min_allele
     ### Output n entries x l loci matrix
     n_digits = length(unlist(strsplit(as.character(n), "")))
     rownames(G) = paste0("entry_", sprintf(paste0("%0", n_digits, "d"), 1:n))
-    colnames(G) = paste(vec_chr, vec_pos, vec_allele, sep="-")
+    colnames(G) = paste(vec_chr, vec_pos, vec_allele, sep="\t")
     if (verbose==TRUE) {
         print("Genotype simulation finished:")
         print(paste0("     -number of rows (number of entries) = ", n))

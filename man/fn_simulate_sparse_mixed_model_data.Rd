@@ -7,18 +7,18 @@
 fn_simulate_sparse_mixed_model_data(G, df_gxe, frac_gen_missing = 0.1)
 }
 \arguments{
-\item{G:}{genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns \link{Required}}
+\item{G}{genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns \link{Required}}
 
-\item{df:}{a data.frame with the phenotype in a single column, replication ID, genotype ID, environment ID, followed by the environmental factor levels with one column per factor}
+\item{frac_gen_missing}{fraction of the genotypes to be set as missing}
 
-\item{frac_gen_missing:}{fraction of the genotypes to be set as missing}
+\item{df}{a data.frame with the phenotype in a single column, replication ID, genotype ID, environment ID, followed by the environmental factor levels with one column per factor}
 }
 \value{
-y_complete: vector of phenotype data without missing data
-y: vector of phenotype data without simulated missing data
-X: incidence matrix for the fixed effects including the intercept and environment/s
-Z: incidence matrix for the random effects, i.e. the genotype IDs
-D: variance-covariance matrix of the random effects defined as the Gram matrix of the genotype information, i.e. let $G$ be the numeric $n \times l$ genotype matrix which may represent the presence or absence of a genome marker or allele frequencies, then $D = GG^T \over l$.
+y_complete vector of phenotype data without missing data
+y vector of phenotype data without simulated missing data
+X incidence matrix for the fixed effects including the intercept and environment/s
+Z incidence matrix for the random effects, i.e. the genotype IDs
+D variance-covariance matrix of the random effects defined as the Gram matrix of the genotype information, i.e. let $G$ be the numeric $n \times l$ genotype matrix which may represent the presence or absence of a genome marker or allele frequencies, then $D = GG^T \over l$.
 }
 \description{
 Simulate sparse mixed-model data

@@ -16,38 +16,45 @@ fn_simulate_gxe(
   h2 = 0.5,
   env_factor_levels = c(2, 3, 2),
   env_factor_effects_sd = c(0.1, 1, 0.01),
+  frac_additional_QTL_per_env = 0.01,
   n_reps = 3,
   verbose = FALSE
 )
 }
 \arguments{
-\item{G:}{genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns \link{Required}}
+\item{G}{genotype matrix with $n$ rows, $l x (n_alleles-1)$ columns, and named rows and columns \link{Required}}
 
-\item{n_alleles:}{number of alleles per locus \link{Required}}
+\item{n_alleles}{number of alleles per locus \link{Required}}
 
-\item{dist_effects:}{distribution of genetic effects which may be "norm" for Gaussian or "chi2" for Chi-squared}
+\item{dist_effects}{distribution of genetic effects which may be "norm" for Gaussian or "chi2" for Chi-squared}
 
-\item{n_effects:}{number of additive genetic effects}
+\item{n_effects}{number of additive genetic effects}
 
-\item{purely_additive:}{Simulate only additive effects?}
+\item{purely_additive}{Simulate only additive effects?}
 
-\item{n_networks:}{number of networks with non-additive effects}
+\item{n_networks}{number of networks with non-additive effects}
 
-\item{n_effects_per_network:}{maximum number of non-additive effects per network}
+\item{n_effects_per_network}{maximum number of non-additive effects per network}
 
-\item{h2:}{heritability, i.e., variance due to genetic effects (additive or additive and non-additive) divided by total phenotype variance}
+\item{h2}{heritability, i.e., variance due to genetic effects (additive or additive and non-additive) divided by total phenotype variance}
 
-\item{env_factor_levels:}{vector of environmental factor levels - think of this as the number of distinct classes per environmental factor like precipitation, temperature, and solar radiation regimes}
+\item{env_factor_levels}{vector of environmental factor levels - think of this as the number of distinct classes per environmental factor like precipitation, temperature, and solar radiation regimes}
 
-\item{env_factor_effects_sd:}{vector or a single value defining the standard deviation of the normal distribution centred at 0 from which the environmental effects affecting the genotype effect will be sampled from}
+\item{env_factor_effects_sd}{vector or a single value defining the standard deviation of the normal distribution centred at 0 from which the environmental effects affecting the genotype effect will be sampled from}
 
-\item{n_reps:}{number of replicates of observations per genotype per environment}
+\item{frac_additional_QTL_per_env}{fraction of the existing number of QTL effects to be added as additional environment specific QTL}
 
-\item{verbose:}{show simulation messages?}
+\item{n_reps}{number of replicates of observations per genotype per environment}
+
+\item{verbose}{show simulation messages?}
 }
 \value{
-df: a data.frame with the phenotype in a single column, replication ID, genotype ID, environment ID, followed by the environmental factor levels with one column per factor
-CORR: correlation matrix between the environments
+df a data.frame with the phenotype in a single column, replication ID, genotype ID, environment ID, followed by the environmental factor levels with one column per factor
+CORR correlation matrix between the environments
+list_Y_b_E_b_epi$Y phenotype matrix with $n$ rows, $pheno_reps$ columns, and named rows and columns
+list_Y_b_E_b_epi$b additive genetic effects, if purely_additive == TRUE, NULL otherwise
+list_Y_b_E_b_epi$E epistasis matrix, if purely_additive == FALSE, NULL otherwise
+list_Y_b_E_b_epi$b_epi epistasis effects, if purely_additive == FALSE, NULL otherwise
 }
 \description{
 Simulate genotype-by-environment interactions
@@ -57,5 +64,5 @@ Arguments are the same as fn_simulate_phenotypes excluding pheno_reps which is r
 G = fn_simulate_genotypes()
 list_df_CORR_1 = fn_simulate_gxe(G)
 list_df_CORR_2 = fn_simulate_gxe(G=G, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
-list_df_CORR_3 = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, n_reps=5, verbose=TRUE)
+list_df_CORR_3 = fn_simulate_gxe(G=G, n_effects=50, purely_additive=FALSE, n_networks=10, n_effects_per_network=50, h2=0.5, env_factor_levels=c(5, 3), env_factor_effects_sd=0.2, frac_additional_QTL_per_env=0.25, n_reps=5, verbose=TRUE)
 }
