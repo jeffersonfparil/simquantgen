@@ -1,0 +1,19 @@
+Package: simquantgen
+Title: Genotype and Phenotype Data Simulation in R
+Version: 1.0.0.0
+Authors@R: 
+    person("Jeff", "Paril", , "jeffersonparil@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "https://orcid.org/0000-0002-5693-4123"))
+Description: Simulate genotype and phenotype data for quantitative genetics analyses in R.
+License: GPL (>= 3) + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports:
+    MASS,
+    doParallel,
+    foreach,
+    txtplot
